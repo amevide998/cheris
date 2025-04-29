@@ -1,0 +1,25 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      = develop
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: install dependencies
+        run: pnpm install
+
+      - name: build app
+        run: bun run build
+
+      - name: Deploy with PM2
+        run: | 
+          pm2 stop all || true
+          pm2 start .output/server/index.mjs --name "nuxt-app"
+          pm2 save
