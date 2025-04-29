@@ -21,7 +21,7 @@ jobs:
         run: pnpm install --force
 
       - name: build app
-        run: bun run build
+        run: pnpm run build
 
       - name: Deploy with PM2
         run: | 
